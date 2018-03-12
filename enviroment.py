@@ -5,6 +5,9 @@ from collections import defaultdict
 from copy import deepcopy
 import matplotlib.pyplot as plt
 from mpl_toolkits.mplot3d import Axes3D
+from mpl_toolkits.mplot3d.axes3d import get_test_data
+from matplotlib import cm
+import numpy as np
 RED = -1
 BLACK = 1
 STICK = 0
@@ -174,6 +177,9 @@ class MonteCarloAgent():
         return "Contents of the Agent"
 
 
+
+
+plt.show()
 TEST=False
 agent=MonteCarloAgent()
 if TEST==False:
@@ -188,6 +194,18 @@ if TEST==False:
             states=[]
             action=[]
             state = setupenviroment()
-    print(agent)
+    fig = plt.figure()
+    ax = fig.add_subplot(1,1,1, projection='3d')
+    arr=np.array(agent.value_fn)
+    X, Y, Z = get_test_data(0.05)
+    X_2=np.array([i for i in range (11)])
+    Y_2=np.array([i for i in range (22)])
+    X_2, Y_2 = np.meshgrid(X_2, Y_2)
+    Z_2=np.array(agent.value_fn)
+    ax.plot_wireframe(X_2, Y_2, Z_2)
+    ax.set_xlabel('Dealer`s Hand')
+    ax.set_ylabel('Your Hand')
+    ax.set_zlabel('Reward')
+    plt.show()
 else:
     agent.run_test()
